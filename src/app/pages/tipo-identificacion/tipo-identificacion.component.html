@@ -1,0 +1,44 @@
+<nz-table #table [nzData]="data" [nzLoading]="loading" [nzTitle]="header">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of table.data">
+            <td>{{data.codigo}}</td>
+            <td>{{data.nombre}}</td>
+            <td>
+                <a (click)="handleShowEdit(data)">Editar</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<ng-template #header>
+    <button nz-button [nzType]="'primary'" (click)="handleShowCreate()"><span>Nuevo</span></button>
+</ng-template>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()" (nzOnOk)="submitForm()"
+    [nzOkLoading]="isOkLoading">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="form">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="codigo">Código</nz-form-label>
+                <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                    <input nz-input formControlName="codigo" id="codigo" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="nombre" nzRequired>
+                    <span>Nombre</span>
+                </nz-form-label>
+                <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                    <input nz-input id="nombre" formControlName="nombre" />
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>

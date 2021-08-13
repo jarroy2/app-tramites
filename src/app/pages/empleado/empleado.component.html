@@ -1,0 +1,113 @@
+<nz-table #table [nzData]="data" [nzLoading]="loading" [nzTitle]="header">
+    <thead>
+        <tr>
+            <th>Tipo Identificación</th>
+            <th>Número</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Departamento</th>
+            <th>Fecha ingreso</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of table.data">
+            <td>{{data.persona.tipoIdentificacion.nombre}}</td>
+            <td>{{data.persona.numeroIdentificacion}}</td>
+            <td>{{data.persona.nombres}}</td>
+            <td>{{data.persona.apellidos}}</td>
+            <td>{{data.persona.email}}</td>
+            <td>{{data.persona.telefono}}</td>
+            <td>{{data.departamento.nombre}}</td>
+            <td>{{data.fechaIngreso}}</td>
+            <td>
+                <a (click)="handleShowEdit(data)">Editar</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<ng-template #header>
+    <button nz-button [nzType]="'primary'" (click)="handleShowCreate()"><span>Nuevo</span></button>
+</ng-template>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()" (nzOnOk)="submitForm()"
+    [nzOkLoading]="isOkLoading" nzWidth="600px">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="form">
+            <ng-container formGroupName="persona">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="codigo">Tipo identificación</nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                        <nz-select formControlName="tipoIdentificacion" [compareWith]="compareFn"
+                            nzPlaceHolder="Seleccione" (nzBlur)="searchPersona()">
+                            <nz-option *ngFor="let item of tipoIdenficacion" [nzValue]="item" [nzLabel]="item.nombre" >
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="numero" nzRequired>
+                        <span>Número de identificación</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                        <nz-input-number formControlName="numeroIdentificacion" id="numero" class="w-100" (nzBlur)="searchPersona()">
+                        </nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nombres" nzRequired>
+                        <span>Nombres</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                        <input nz-input id="nombres" formControlName="nombres" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="apellidos" nzRequired>
+                        <span>Apellidos</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                        <input nz-input id="apellidos" formControlName="apellidos" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="telefono" nzRequired>
+                        <span>Teléfono</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                        <nz-input-number formControlName="telefono" id="telefono" class="w-100"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="email" nzRequired>
+                        <span>Email</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                        <input nz-input formControlName="email" id="email">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="direccion">
+                        <span>Dirección</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                        <input nz-input formControlName="direccion" id="direccion">
+                    </nz-form-control>
+                </nz-form-item>
+            </ng-container>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="codigo">Departamento</nz-form-label>
+                <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+                    <nz-select formControlName="departamento" [compareWith]="compareFn"
+                        nzPlaceHolder="Seleccione">
+                        <nz-option *ngFor="let item of departamentos" [nzValue]="item" [nzLabel]="item.nombre">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>

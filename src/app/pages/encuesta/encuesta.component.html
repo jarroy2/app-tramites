@@ -1,0 +1,58 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="codigo">Marca del PC</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+            <nz-select formControlName="marca" [compareWith]="compareFn" nzPlaceHolder="Seleccione">
+                <nz-option *ngFor="let item of marcas" [nzValue]="item" [nzLabel]="item.nombre">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="nombres" nzRequired>
+            <span>Nombres</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+            <input nz-input id="nombres" formControlName="nombres" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="apellidos" nzRequired>
+            <span>Apellidos</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Este campo es obligatorio">
+            <input nz-input id="apellidos" formControlName="apellidos" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="email" nzRequired>
+            <span>Email</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="emailErrorTpl">
+            <input nz-input formControlName="email" id="email">
+            <ng-template #emailErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('email')">
+                    El email no es valido
+                </ng-container>
+                <ng-container *ngIf="control.hasError('required')">
+                    Este campo es obligatorio
+                </ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <div nz-row nzJustify="space-between" nzAlign="bottom" style="padding-top: 30px;">
+        <div nz-col [nzXs]="24" [nzSm]="8">
+            <button nz-button (click)="reset()" nzType="default" nzBlock style="margin-bottom: 10px;"
+                class="roque-btn-default">
+                Limpiar
+            </button>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="8">
+            <button nz-button type="submit" nzType="primary" nzBlock [nzLoading]="isOkLoading"
+                style="margin-bottom: 10px;" [disabled]="form.invalid">
+                Aceptar
+            </button>
+        </div>
+    </div>
+</form>

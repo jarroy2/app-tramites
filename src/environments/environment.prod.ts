@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  protocolo: 'http://',
+  host: 'localhost:8080',
 };
